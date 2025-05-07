@@ -1,7 +1,6 @@
-version: '3.8'
-
 services:
   node-exporter:
+    container_name: node-exporter
     image: prom/node-exporter:v1.3.1
     volumes:
       - /proc:/host/proc:ro
@@ -16,6 +15,7 @@ services:
       - "9100:9100"
 
   prometheus:
+    container_name: prometheus
     image: prom/prometheus:v2.32.1
     volumes:
       - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
@@ -30,6 +30,7 @@ services:
       - "9090:9090"
 
   grafana:
+    container_name: grafana
     image: grafana/grafana:8.3.3
     depends_on:
       - prometheus
@@ -44,7 +45,7 @@ services:
       - grafana_prom_data:/var/lib/grafana
       - ./grafana/provisioning/:/etc/grafana/provisioning/
       - ./grafana/dashboards/:/var/lib/grafana/dashboards/ # https://grafana.com/grafana/dashboards/1860
-      
+
 volumes:
   grafana_prom_data: {}
   prometheus_data: {}
